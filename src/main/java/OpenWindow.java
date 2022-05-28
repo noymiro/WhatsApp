@@ -29,7 +29,7 @@ public class OpenWindow extends JPanel {
         this.setLayout(null);
         // this.setDoubleBuffered(true);
         this.setVisible(true);
-        this.openPic = new ImageIcon("image.png");
+        this.openPic = new ImageIcon("whatsapp.png");
         // drawButton();
         button = new JButton("WhatsApp Web");
         button.setBounds(20, 20, 150, 50);
