@@ -96,7 +96,7 @@ public class OpenWindow extends JPanel {
         }
 
 
-    }
+    } //ניסיון
 
     public void loginToWhatsApp(String phone, String massage) {
         // System.setProperty("webdriver.chrome.driver", "C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\מדמח סימסטר א\\chromedriver.exe");
