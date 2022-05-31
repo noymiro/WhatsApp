@@ -107,12 +107,12 @@ public class OpenWindow extends JPanel {
 //            System.out.println("start : thread");
 //            WebDriverWait = new WebDriverWait(driver,30);
 //            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'COMPOSE')]")));
-//_9rne _9vcv _9vcx
             try {
                 WebElement continueChatting = driver.findElement(By.id("action-button"));//המשך לצאט
                 continueChatting.click();
-                List<WebElement> whatAppWeb = driver.findElements(By.linkText("WhatsApp Web"));// השתמש בווצאפ ווב
-                whatAppWeb.get(0).click();
+                Thread.sleep(1000);
+                WebElement whatAppWeb = driver.findElement(By.xpath("//*[@id=\"fallback_block\"]/div/div/h4[2]/a"));// השתמש בווצאפ ווב
+                whatAppWeb.click();
                 waitToLogIn(driver);
                 System.out.println("it works! ");
                     WebElement newMassage = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"));
@@ -120,10 +120,7 @@ public class OpenWindow extends JPanel {
                     WebElement send = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
                     System.out.println(send );
                     send.click();
-//                    Thread.sleep(1500);
-//                    int v = messageStatus(driver);
-//                    System.out.println(v);
-               // }
+                System.out.println(messageStatus(driver));
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("false" + e);
@@ -133,37 +130,42 @@ public class OpenWindow extends JPanel {
 
 
     }
-//    public int messageStatus(ChromeDriver driver){//לא עובדד
-//        int blueV = 5;
-//        WebElement status = driver.findElement(By.xpath("//*[@id=\"main\"]/div[3]/div/div[2]/div[3]"));//צאט
-//        WebElement status2 = driver.findElement(By.xpath("//*[@id=\"main\"]/div[3]/div/div[2]/div[3]/div[9]/div/div[1]/div[1]/div[2]/div/div/span"));//נשלח
-//        ////*[@id="main"]/div[3]/div/div[2]/div[3]/div[17]/div/div[1]/div[1]/div[2]/div/div/span // נמסרה
-//
-//        System.out.println(status + "list ");
-//         while (!status2.equals(status)) {
-//             System.out.println("start while");
-//             try {
-//                 status = driver.findElement(By.xpath("//*[@id=\"main\"]/div[3]/div/div[2]/div[3]/div[19]/div/div[1]/div[1]/div[2]/div/div/span"));//וי כחול
-//
-//             }catch (Exception e){
-//                 System.out.println(e);
-//             }try{
-//                 status = driver.findElement(By.xpath("*[@id=\"main\"]/div[3]/div/div[2]/div[3]/div[17]/div/div[1]/div[1]/div[2]/div/div/span"));//וי כחול
-//
-//             }catch (Exception e1){
-//                 System.out.println(e1);
-//             }
-//             if(status != null){
-//                 blueV = 2;
-//             }
-////             if (status.equals("נמסרה")) {
-////                 blueV = 1;
-////             } else if (status.equals("נקרא")) {
-////                 blueV = 2;
-////             }
-//         }
-//        return blueV;
-//    }
+    public int messageStatus(ChromeDriver driver){
+        int checkStatus = 0;
+        while (true){
+            List<WebElement> webElements = driver.findElements(By.className("_1PzAL"));//מחכה שישלח הודעה
+            if (webElements != null && !webElements.isEmpty()) {
+                System.out.println("webElement: exist");
+                break;
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        while (true) {
+            List<WebElement> list = driver.findElements(By.className("_3l4_3"));
+            if (list != null && !list.isEmpty()) {
+                System.out.println(" : " + list.get(0).getAccessibleName());
+                checkStatus = 2;
+                break;
+            } else {
+                checkStatus = 1;
+                break;
+
+            }
+        } return checkStatus;
+
+    }
+    //*[@id="main"]/div[3]/div/div[2]/div[3]/div[25]/div/div[1]/div[1]/div[2]/div/div/span //נקרא
+    // *[@id="main"]/div[3]/div/div[2]/div[3]/div[29]/div/div[1]/div[1]/div[2]/div/div/span // נמסרה
+    //*[@id="main"]/div[3]/div/div[2]/div[3]/div[19]/div/div[1]/div[1]/div[2]/div/div/span // נמסרה
+    //_1qB8f // נקרא
+    //_1qB8f // נמסרה
+    //_1PzAL // חלון הודעה
+    // _3l4_3
 
     public boolean phoneNumber(String number) {
         boolean goodNumber = false;
@@ -248,7 +250,7 @@ public class OpenWindow extends JPanel {
 //                boolean noExists = true;
 //                while (noExists){
 //                    try {
-//                        noExists = driver.findElement(By.className("_3K4-L")).getSize().equals(0);
+//                        noExists = driver.findElement(By.xpath("//*[@id=\"fallback_block\"]/div/div/h4[2]/a")).getSize().equals(0);
 //                    }catch (Exception e){
 //                        noExists = true;
 //                        System.out.println(e);
