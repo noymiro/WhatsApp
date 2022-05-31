@@ -1,19 +1,13 @@
-import javax.crypto.KeyAgreementSpi;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.security.KeyPair;
-import java.sql.Driver;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.stream.Collector;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
-import net.bytebuddy.asm.Advice;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -113,23 +107,23 @@ public class OpenWindow extends JPanel {
 //            System.out.println("start : thread");
 //            WebDriverWait = new WebDriverWait(driver,30);
 //            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'COMPOSE')]")));
-
+//_9rne _9vcv _9vcx
             try {
-                WebElement continueChatting = driver.findElement(By.id("action-button"));
+                WebElement continueChatting = driver.findElement(By.id("action-button"));//המשך לצאט
                 continueChatting.click();
-                Thread.sleep(30000);
+                List<WebElement> whatAppWeb = driver.findElements(By.linkText("WhatsApp Web"));// השתמש בווצאפ ווב
+                whatAppWeb.get(0).click();
+                waitToLogIn(driver);
                 System.out.println("it works! ");
-                List<WebElement> elementList = driver.findElements(By.className("_3K4-L"));
-                if (elementList != null) {
                     WebElement newMassage = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"));
                     newMassage.sendKeys(massage);
                     WebElement send = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span"));
                     System.out.println(send );
                     send.click();
 //                    Thread.sleep(1500);
-                    int v = messageStatus(driver);
-                    System.out.println(v);
-                }
+//                    int v = messageStatus(driver);
+//                    System.out.println(v);
+               // }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("false" + e);
@@ -139,20 +133,37 @@ public class OpenWindow extends JPanel {
 
 
     }
-    public int messageStatus(ChromeDriver driver){
-        int blueV = 0;
-        WebElement status = driver.findElement(By.className("_3l4_3"));
-//        WebElement status1 = driver.findElement(By.className("_2WtuC"));
-//        WebElement status2 = driver.findElement(By.className("YYcY9"));
-        System.out.println(status + "list ");
-            if(status.equals("נמסרה")){
-                blueV = 1;
-            }else if(status.equals("נקרא")) {
-                blueV = 2;
-            }
-
-        return blueV;
-    }
+//    public int messageStatus(ChromeDriver driver){//לא עובדד
+//        int blueV = 5;
+//        WebElement status = driver.findElement(By.xpath("//*[@id=\"main\"]/div[3]/div/div[2]/div[3]"));//צאט
+//        WebElement status2 = driver.findElement(By.xpath("//*[@id=\"main\"]/div[3]/div/div[2]/div[3]/div[9]/div/div[1]/div[1]/div[2]/div/div/span"));//נשלח
+//        ////*[@id="main"]/div[3]/div/div[2]/div[3]/div[17]/div/div[1]/div[1]/div[2]/div/div/span // נמסרה
+//
+//        System.out.println(status + "list ");
+//         while (!status2.equals(status)) {
+//             System.out.println("start while");
+//             try {
+//                 status = driver.findElement(By.xpath("//*[@id=\"main\"]/div[3]/div/div[2]/div[3]/div[19]/div/div[1]/div[1]/div[2]/div/div/span"));//וי כחול
+//
+//             }catch (Exception e){
+//                 System.out.println(e);
+//             }try{
+//                 status = driver.findElement(By.xpath("*[@id=\"main\"]/div[3]/div/div[2]/div[3]/div[17]/div/div[1]/div[1]/div[2]/div/div/span"));//וי כחול
+//
+//             }catch (Exception e1){
+//                 System.out.println(e1);
+//             }
+//             if(status != null){
+//                 blueV = 2;
+//             }
+////             if (status.equals("נמסרה")) {
+////                 blueV = 1;
+////             } else if (status.equals("נקרא")) {
+////                 blueV = 2;
+////             }
+//         }
+//        return blueV;
+//    }
 
     public boolean phoneNumber(String number) {
         boolean goodNumber = false;
@@ -199,23 +210,48 @@ public class OpenWindow extends JPanel {
             return true;
         }
     }
-
-
-    public boolean postMassage(String massage) {
-        System.out.println("post massage: start");
-        ChromeDriver driver = new ChromeDriver();
-        try {
-            WebElement newMassage = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"));
-//        WebElement newMassage = driver.findElement(By.className("_2vbn4"));
-//        WebElement newMassage = driver.findElement(By.className("_3J6w8"));
-//            newMassage.click();
-            newMassage.sendKeys(massage);
-//            newMassage.sendKeys(Keys.ENTER);
-
-            System.out.println("hala");
-        }catch (Exception e){
-            System.out.println("no works "+e);
+    public void waitToLogIn(ChromeDriver driver){
+        while (true) {
+            List<WebElement> elementList = driver.findElements(By.className("_3K4-L"));
+            if (elementList != null && !elementList.isEmpty()) {
+                break;
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return true;
     }
+
+
+//    public boolean postMassage(String massage) {
+//        System.out.println("post massage: start");
+//        ChromeDriver driver = new ChromeDriver();
+//        try {
+//            WebElement newMassage = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"));
+////        WebElement newMassage = driver.findElement(By.className("_2vbn4"));
+////        WebElement newMassage = driver.findElement(By.className("_3J6w8"));
+////            newMassage.click();
+//            newMassage.sendKeys(massage);
+////            newMassage.sendKeys(Keys.ENTER);
+//
+//            System.out.println("hala");
+//        }catch (Exception e){
+//            System.out.println("no works "+e);
+//        }
+//        return true;
+//    }
+
+//קומבינה להאט עד שיקבל אלמנט
+//                boolean noExists = true;
+//                while (noExists){
+//                    try {
+//                        noExists = driver.findElement(By.className("_3K4-L")).getSize().equals(0);
+//                    }catch (Exception e){
+//                        noExists = true;
+//                        System.out.println(e);
+//                    }
+//                }
 }
