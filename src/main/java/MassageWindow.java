@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.*;
 import java.awt.*;
 
 
@@ -8,6 +7,7 @@ public class MassageWindow extends JPanel {
 
 
     public MassageWindow(int x, int y, int width, int height) {
+        System.out.println("noy");
         this.setBounds(x, y, width, height);
         this.setOpaque(true);
         this.setFocusable(true);
