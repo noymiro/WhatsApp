@@ -18,7 +18,6 @@ public class OpenWindow extends JPanel {
     private JButton button;
 
 
-
     public OpenWindow(int x, int y, int width, int height) {
         this.setBounds(x, y, width, height);
         this.setFocusable(true);
@@ -27,7 +26,7 @@ public class OpenWindow extends JPanel {
         this.setVisible(true);
         this.openPic = new ImageIcon("whatsapp.png");
         button = new JButton("WhatsApp Web");
-        button.setBounds(20, 20, 150, 50);
+        button.setBounds(Final.BUTTON_X, Final.BUTTON_Y, Final.BUTTON_WIDTH, Final.BUTTON_HRIGT);
         this.add(button);
         button.setBackground(Color.white);
         openWindowItem();
@@ -38,28 +37,28 @@ public class OpenWindow extends JPanel {
 
     public void openWindowItem() {
         JLabel myTitle = new JLabel("הכנס מספר טלפון:");
-        myTitle.setBounds(30, 60, 180, 50);
-        Font myFont = new Font("Ariel", Font.BOLD, 18);
+        myTitle.setBounds(Final.X_TITEL, Final.Y_TITEL, Final.TITEL_BOUNDS_WIDTH, Final.TITEL_BOUNDS_HIGHT);
+        Font myFont = new Font("Ariel", Font.BOLD, Final.FONT_SIZE);
         this.add(myTitle);
         myTitle.setFont(myFont);
         this.phoneNumber = new TextField("");
-        phoneNumber.setBounds(20, 110, 150, 30);
+        phoneNumber.setBounds(Final.X_BOUNDS, Final.Y_PHONE, Final.WIDTH_PHONE, Final.TITEL_BOUNDS_HIGHT);
         this.add(phoneNumber);
 
         JLabel myTitle2 = new JLabel("הכנס הודעת טקסט:");
-        myTitle2.setBounds(30, 125, 180, 50);
-        Font myFont2 = new Font("Ariel", Font.BOLD, 18);
+        myTitle2.setBounds(Final.X_TITEL, Final.TITLE2_Y + 20, Final.TITEL_BOUNDS_WIDTH, Final.TITEL_BOUNDS_HIGHT);
+        Font myFont2 = new Font("Ariel", Font.BOLD, Final.FONT_SIZE);
         this.add(myTitle2);
         myTitle2.setFont(myFont2);
         this.textField = new TextField("");
-        textField.setBounds(20, 180, 150, 50);
+        textField.setBounds(Final.X_BOUNDS, Final.TITEL_BOUNDS_WIDTH + 10, Final.WIDTH_PHONE, Final.TITEL_BOUNDS_HIGHT);
         this.add(textField);
     }
 
 
     protected void paintComponent(Graphics graphics) {
         if (openPic != null) {
-            this.openPic.paintIcon(this, graphics, 0, 0);
+            this.openPic.paintIcon(this, graphics, Final.X, Final.Y);
         }
     }
 
@@ -73,7 +72,7 @@ public class OpenWindow extends JPanel {
 
     public void loginToWhatsApp(String phone, String massage) {
         //      System.setProperty("webdriver.chrome.driver", "C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\מדמח סימסטר א\\chromedriver_win32 (1)\\chromedriver.exe");//שוהם
-       System.setProperty("webdriver.chrome.driver", "" + "C:\\Users\\noymi\\Downloads\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "" + "C:\\Users\\noymi\\Downloads\\chromedriver_win32\\chromedriver.exe");
         ChromeDriver driver = new ChromeDriver();
         driver.get("https://api.whatsapp.com/send?phone=972" + phone);
         driver.manage().window().maximize();
@@ -81,7 +80,7 @@ public class OpenWindow extends JPanel {
             try {
                 WebElement continueChatting = driver.findElement(By.id("action-button"));//המשך לצאט
                 continueChatting.click();
-                Thread.sleep(1000);
+                Thread.sleep(Final.THREAD_SLEEP);
                 WebElement whatAppWeb = driver.findElement(By.xpath("//*[@id=\"fallback_block\"]/div/div/h4[2]/a"));// השתמש בווצאפ ווב
                 whatAppWeb.click();
                 waitToLogIn(driver);
@@ -111,9 +110,13 @@ public class OpenWindow extends JPanel {
             try {
                 if (Objects.equals(list.get(list.size() - 1).getAccessibleName(), "נמסרה")) {
                     System.out.println(": נמסרה " + list.get(list.size() - 1).getAccessibleName());
-                    messageStatusSend.setText("הודעה נמסרה");
-                    messageStatusSend.setBounds(0, 260, 200, 50);
+                    messageStatusSend.setText("ההודעה נמסרה");
+                    messageStatusSend.setBounds(Final.X_TITEL, Final.MESSAGE_Y, Final.MESSAGE_WIDTH, Final.MESSAGE_HEIGHT);
                     this.add(messageStatusSend);
+                    Font myFont = new Font("Ariel", Font.BOLD, Final.FONT_SIZE);
+                    messageStatusSend.setFont(myFont);
+
+
                     massage = true;
                     break;
                 }
@@ -124,6 +127,7 @@ public class OpenWindow extends JPanel {
         return massage;
     }
 
+    //0526931323
     public void messageWesRead(ChromeDriver driver) {
         JLabel messageStatusSend = new JLabel("");
         while (true) {
@@ -131,9 +135,12 @@ public class OpenWindow extends JPanel {
             try {
                 if (Objects.equals(list.get(list.size() - 1).getAccessibleName(), "נקראה")) {
                     System.out.println(" נקראה:  " + list.get(list.size() - 1).getAccessibleName());
-                    messageStatusSend.setText("הודעה נקראה");
-                    messageStatusSend.setBounds(30, 280, 200, 50);
+                    messageStatusSend.setText("ההודעה נקראה");
+                    messageStatusSend.setBounds(Final.X_TITEL, Final.MESSAGE_Y2, Final.MESSAGE_WIDTH, Final.MESSAGE_HEIGHT);
                     this.add(messageStatusSend);
+                    Font myFont = new Font("Ariel", Font.BOLD, Final.FONT_SIZE);
+                    messageStatusSend.setFont(myFont);
+
                     break;
                 }
 
@@ -146,15 +153,17 @@ public class OpenWindow extends JPanel {
     public boolean phoneNumber(String number) {
         boolean goodNumber = false;
         JLabel myTitle = new JLabel("");
-        myTitle.setBounds(30, 220, 200, 50);
-        Font myFont = new Font("Ariel", Font.BOLD, 14);
+        myTitle.setBounds(Final.X_TITEL, Final.TITEL_BOUNDS_Y, Final.TITEL_WIDTH, Final.TITEL_BOUNDS_HIGHT);
+        Font myFont = new Font("Ariel", Font.BOLD, Final.FONT_SIZE3);
         myTitle.setForeground(Color.black);
         this.add(myTitle);
         myTitle.setFont(myFont);
         if (number.length() == 0) {
-            myTitle.setText("נא הכנס מספר טלפון");
+            myTitle.setText("נא הכנס מספר טלפון:");
             this.add(myTitle);
+
         }
+
         if (number.length() == 10) {
             for (int i = 0; i < number.length() - 1; i++) {
                 if (number.charAt(i) >= '0' && number.charAt(i) <= '9') {
@@ -170,17 +179,18 @@ public class OpenWindow extends JPanel {
         if (!goodNumber && number.length() > 0) {
 
             myTitle.setText("מספר טלפון לא תקין!");
-            myTitle.setBounds(30, 240, 200, 50);
+            myTitle.setBounds(Final.X_TITEL, Final.TITEL_Y, Final.TITEL_WIDTH, Final.TITEL_BOUNDS_HIGHT);
             this.add(myTitle);
         }
+
         return goodNumber;
     }
 
     public boolean textMassage(String massage) {
         if (Objects.equals(massage, "")) {
             JLabel myTitle = new JLabel("הודעת טקסט לא תקינה! ");
-            myTitle.setBounds(30, 260, 200, 50);
-            Font myFont = new Font("Ariel", Font.BOLD, 14);
+            myTitle.setBounds(Final.X_TITEL, Final.Y_TITEL2, Final.TITEL_WIDTH,  Final.TITEL_HEIGHT2);
+            Font myFont = new Font("Ariel", Font.BOLD, Final.FONT_SIZE2);
             myTitle.setForeground(Color.black);
             this.add(myTitle);
             myTitle.setFont(myFont);
@@ -197,7 +207,7 @@ public class OpenWindow extends JPanel {
                 break;
             } else {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(Final.THREAD_SLEEP2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -206,7 +216,8 @@ public class OpenWindow extends JPanel {
     }
 
     public void response(ChromeDriver driver) {
-        JLabel messageStatusSend = new JLabel("");
+
+        JLabel message = new JLabel("");
         System.out.println("response: start");
         List<WebElement> listOfRecipient = driver.findElements(By.className("_2wUmf"));
         int size = listOfRecipient.size();
@@ -216,53 +227,32 @@ public class OpenWindow extends JPanel {
                 System.out.println("no new message");
             } else {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(Final.THREAD_SLEEP2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             try {
-                Thread.sleep(10000);
-            }catch (Exception e){
+                Thread.sleep(Final.THREAD_SLEEP3);
+            } catch (Exception e) {
                 System.out.println(e);
             }
             if (size != listOfRecipient.size()) {
+                message.setText("ההודעה שנשלחה:");
+                message.setBounds(Final.X_END, Final.Y_END, Final.WIDTH_END_ME, Final.HEIGHT_END_ME);
+                this.add(message);
+                Font myFont = new Font("Ariel", Font.BOLD, Final.FONT_SIZE2);
+                message.setFont(myFont);
                 System.out.println("listOfRecipient: " + listOfRecipient.get(listOfRecipient.size() - 1).getText());
-                String str = listOfRecipient.get(listOfRecipient.size() - 1).getText();
-                messageStatusSend.setText(str);
-                messageStatusSend.setBounds(0,300,200,150);
-                this.add(messageStatusSend);
+                String str = listOfRecipient.get(listOfRecipient.size() - 1).getText() + " ";
+                JTextField textField = new JTextField(str, 40);
+                textField.setBounds(Final.X_END_ME, Final.Y_END_ME, Final.WIDTH_END_ME, Final.HEIGHT_END_ME);
+                this.add(textField);
+                Font font = new Font("Ariel", Font.BOLD, Final.FONT_SIZE2);
+                textField.setFont(font);
                 break;
             }
         }
     }
 }
 
-//    public boolean postMassage(String massage) {
-//        System.out.println("post massage: start");
-//        ChromeDriver driver = new ChromeDriver();
-//        try {
-//            WebElement newMassage = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"));
-////        WebElement newMassage = driver.findElement(By.className("_2vbn4"));
-////        WebElement newMassage = driver.findElement(By.className("_3J6w8"));
-////            newMassage.click();
-//            newMassage.sendKeys(massage);
-////            newMassage.sendKeys(Keys.ENTER);
-//
-//            System.out.println("hala");
-//        }catch (Exception e){
-//            System.out.println("no works "+e);
-//        }
-//        return true;
-//    }
-
-//קומבינה להאט עד שיקבל אלמנט
-//                boolean noExists = true;
-//                while (noExists){
-//                    try {
-//                        noExists = driver.findElement(By.xpath("//*[@id=\"fallback_block\"]/div/div/h4[2]/a")).getSize().equals(0);
-//                    }catch (Exception e){
-//                        noExists = true;
-//                        System.out.println(e);
-//                    }
-//                }

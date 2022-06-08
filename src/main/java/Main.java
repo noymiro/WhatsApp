@@ -12,11 +12,11 @@ public class Main extends JFrame {
 
     public Main (){
 
-        OpenWindow openWindow = new OpenWindow(0 , 0 , 600 , 600);
+        OpenWindow openWindow = new OpenWindow(Final.X , Final.Y , Final.WINDOW_WIDTH , Final.WINDOW_HEIGT);
         this.add(openWindow);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800,600);
+        this.setSize(Final.WINDOW_WIDTH2,Final.WINDOW_HEIGT);
         //  this.setLayout(null);
         this.setVisible(true);
 
